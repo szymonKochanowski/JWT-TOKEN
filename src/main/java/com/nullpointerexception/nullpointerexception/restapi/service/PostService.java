@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private static final int PAGE_SIZE = 3;
+
     @Autowired
     private PostRepository postRepository;
 
@@ -44,5 +46,22 @@ public class PostService {
         return comments.stream()
                 .filter(comment -> comment.getPostId() == id)
                 .collect(Collectors.toList());
+    }
+
+    public Post addPost(Post post) {
+        return postRepository.save(post);
+    }
+
+    @Transactional //dodajemy ta adnotacje poniewaz w tej metodzie mamy dwie transacke bazodanowe poprzez klase postRepository
+    public Post editPost(Post post) {
+        Post editedPost = postRepository.findById(post.getId()).orElseThrow();
+        editedPost.setTitle(post.getTitle());
+        editedPost.setContent(post.getContent());
+        editedPost.setCreated(post.getCreated());
+        return postRepository.save(editedPost);
+    }
+
+    public void deletedPost(Long id) {
+        postRepository.deleteById(id);
     }
 }
