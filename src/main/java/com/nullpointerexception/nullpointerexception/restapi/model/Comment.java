@@ -17,6 +17,7 @@ public class Comment {
     @Id
     @GeneratedValue
     private Long id;
+    private Long postId;
     private String content;
     private LocalDateTime created;
 }

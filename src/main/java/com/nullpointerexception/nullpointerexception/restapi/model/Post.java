@@ -23,6 +23,6 @@ public class Post {
     private LocalDateTime created;
 
     @OneToMany //kazdy post moze miec wiele komentarzy
-    @JoinColumn(name = "post_id") //mapujemy kolumne na ktorej jest powiazanie z klasa Comment
+    @JoinColumn(name = "postId") //mapujemy kolumne na ktorej jest powiazanie z klasa Comment
     private List<Comment> commentList;
 }
