@@ -56,7 +56,9 @@ public class PostController {
 
     @DeleteMapping("/post/deleted/{id}")
     public ResponseEntity<Void> deletedPost(@PathVariable Long id) {
-         postService.deletedPost(id);
-         return new ResponseEntity(HttpStatus.OK);
+        log.info("Start deleted post with id: " + id);
+        postService.deletedPost(id);
+        log.info("Deleted post with id: " + id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
