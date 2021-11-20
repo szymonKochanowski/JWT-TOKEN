@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class CommentService {
     }
 
     public Comment addNewComment(Comment comment) {
+        comment.setCreated(LocalDateTime.now());
         return commentRepository.save(comment);
     }
 
