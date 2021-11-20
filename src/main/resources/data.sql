@@ -22,3 +22,11 @@ insert into comment (post_id, content, created) values (5, 'test comment post 9'
 insert into comment (post_id, content, created) values (6, 'test comment post 10', '2021-11-03T13:46:00.123456789');
 insert into comment (post_id, content, created) values (7, 'test comment post 11', '2021-11-03T11:41:00.123456789');
 insert into comment (post_id, content, created) values (7, 'test comment post 12', '2021-11-03T12:42:00.123456789');
+
+insert into user (username, password) values ('Szymon', 'test');
+insert into user (username, password) values ('Piotr', 'test2');
+insert into user (username, password) values ('Paweł', 'test3');
+insert into user (username, password) values ('Rafał', 'test4');
+
+insert into role (user_id, role_name) values (1, 'ADMIN');
+insert into role (user_id, role_name) values (2, 'USER');

@@ -22,7 +22,7 @@ public class Post {
     private String content;
     private LocalDateTime created;
 
-    @OneToMany(cascade = CascadeType.REMOVE) //kazdy post moze miec wiele komentarzy //jezeli chcemy aby hibernate usuwal nam commentarze przypisane do danego posta podczas jego updejtu to wybieramy ocje orphanRemoval = true// dodalismy casecade type remove aby miec mozliwosc usuniecia danego posta
+    @OneToMany(cascade = CascadeType.ALL) //kazdy post moze miec wiele komentarzy //jezeli chcemy aby hibernate usuwal nam commentarze przypisane do danego posta podczas jego updejtu to wybieramy ocje orphanRemoval = true// dodalismy casecade type remove aby miec mozliwosc usuniecia danego posta
     @JoinColumn(name = "postId", updatable = false, insertable = false) //mapujemy kolumne na ktorej jest powiazanie z klasa Comment //update table oraz insertable pozwala na zachownie komentarzy podczas edyci posta
     private List<Comment> commentList;
 }
