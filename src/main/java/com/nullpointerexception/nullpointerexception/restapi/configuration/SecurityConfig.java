@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //musi roszer
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.jdbcAuthentication()
-                .withDefaultSchema() //dodajemy to jezli nie mamy zrobionej tabeli user
+                .withDefaultSchema()
                 .dataSource(datasource)
                 .withUser("test")
                 .password("{bcrypt}" + new BCryptPasswordEncoder().encode("test"))
@@ -52,24 +52,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //musi roszer
     http
             .authorizeRequests()
             .antMatchers("/").permitAll()
-            .antMatchers("/h2-console/**").permitAll() //dostep do bazy h2
+            .antMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
             .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // ustawiamy aby sesja byla bez stanowa
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .addFilter(authenticationFilter())
-            .addFilter(new JwtAuthorizationFilter(authenticationManager(), userDetailsManager(), secret)) //musielismy ustawic wlasny user detail service (manager)
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), userDetailsManager(), secret))
             .exceptionHandling()
-            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) //ustawiany odpowiedni status http - 401 brak autoryzacji
+            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
             .and()
-            .headers().frameOptions().disable(); //to dodajemy aby polaczyc sie z baza daych h2 i zobaczyc tabele z userem poprzez wylaczaenie domyslnych headersow od springa
+            .headers().frameOptions().disable();
     }
     
     public JsonObjectAuthenticationFilter authenticationFilter() throws Exception {
         JsonObjectAuthenticationFilter jsonObjectAuthenticationFilter = new JsonObjectAuthenticationFilter(objectMapper);
-        jsonObjectAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);  //jest wywolywany gdy uwierzytelenienie jest poprawne
-        jsonObjectAuthenticationFilter.setAuthenticationFailureHandler(failureHandler); //jest wywolywany gdy uwierzytelenienie jest niepoprawne
-        jsonObjectAuthenticationFilter.setAuthenticationManager(super.authenticationManager()); //musimy tez ustawic manager z domyslna wartoscia
+        jsonObjectAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
+        jsonObjectAuthenticationFilter.setAuthenticationFailureHandler(failureHandler);
+        jsonObjectAuthenticationFilter.setAuthenticationManager(super.authenticationManager());
         return  jsonObjectAuthenticationFilter;
     }
 

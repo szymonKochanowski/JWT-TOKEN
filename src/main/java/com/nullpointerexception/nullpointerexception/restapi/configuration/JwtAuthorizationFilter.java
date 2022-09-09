@@ -32,27 +32,27 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, //ta metoda odpowiada za autrozyacje
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws IOException, ServletException {
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request); // jezli klient strzela requestem do serwisu i ma tokena to go pobieramy
+        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
         if (authentication == null) {
             filterChain.doFilter(request, response);
             return;
         }
-        SecurityContextHolder.getContext().setAuthentication(authentication); // tutaj nastepuje autoryzacja uzytkownika
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(TOKEN_HEADER); // token header to authorization
-        if (token != null && token.startsWith(TOKEN_PREFIX)) { //sprawdzamy czy ma odpowiedni
-            String userName = JWT.require(Algorithm.HMAC256(secret)) // sprawdzamy czy odpowiedni secret
+        String token = request.getHeader(TOKEN_HEADER);
+        if (token != null && token.startsWith(TOKEN_PREFIX)) {
+            String userName = JWT.require(Algorithm.HMAC256(secret))
                     .build()
-                    .verify(token.replace(TOKEN_PREFIX, "")) // weryfikujemy token
-                    .getSubject(); // z tokena mozemy pobrac rozne info
+                    .verify(token.replace(TOKEN_PREFIX, ""))
+                    .getSubject();
             if (userName != null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userName); // z tokena pobieramy userName i jezeli nie jest nulem to wrzucamy go do user datail service
-                return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities()); // przekazujemy usera do user password authenitication token
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+                return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
             }
         }
         return null;

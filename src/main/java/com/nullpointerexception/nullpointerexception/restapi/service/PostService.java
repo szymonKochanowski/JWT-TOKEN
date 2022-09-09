@@ -25,7 +25,7 @@ public class PostService {
     private CommentRepository commentRepository;
 
     public List<Post> getPosts(int page, Sort.Direction sort) {
-        return postRepository.findAllPosts(PageRequest.of(page, PAGE_SIZE, Sort.by(sort, "id"))); //zakres postow zostal ograniczony za pomoca pageRequest (to jest tzw. pagnicaja lub stronicotwanie)
+        return postRepository.findAllPosts(PageRequest.of(page, PAGE_SIZE, Sort.by(sort, "id")));
     }
 
     public Post getSinglePost(Long id) {
@@ -34,11 +34,11 @@ public class PostService {
 
     public List<Post> getPostsWithComments(int page, Sort.Direction sort) {
         List<Post> allPosts = postRepository.findAllPosts(PageRequest.of(page, PAGE_SIZE, Sort.by(sort, "id")));
-        List<Long> postIds = allPosts.stream() //pobieramy liste id wszystkich postow
-                .map(Post::getId) //zamienilismy lambde na metod reference
+        List<Long> postIds = allPosts.stream()
+                .map(Post::getId)
                 .collect(Collectors.toList());
-        List<Comment> comments = commentRepository.findAllByPostIdIn(postIds);//pobieramy komentarze na podstawie ids postow
-        allPosts.forEach(post -> post.setCommentList(extractComment(comments, post.getId())));  //podlaczamy komentarze do postow
+        List<Comment> comments = commentRepository.findAllByPostIdIn(postIds);
+        allPosts.forEach(post -> post.setCommentList(extractComment(comments, post.getId())));
         return allPosts;
     }
 
@@ -52,7 +52,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    @Transactional //dodajemy ta adnotacje poniewaz w tej metodzie mamy dwie transacke bazodanowe poprzez klase postRepository
+    @Transactional
     public Post editPost(Post post) {
         Post editedPost = postRepository.findById(post.getId()).orElseThrow();
         editedPost.setTitle(post.getTitle());

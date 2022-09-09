@@ -7,16 +7,16 @@ import java.util.stream.Collectors;
 
 public class PostDtoMapper {
 
-    private PostDtoMapper() { //dodajemy prywatny konstuktor aby nikt inny nie otworzyl obiektow dtoMapper
+    private PostDtoMapper() {
     }
 
     public static List<PostDto> mapToPostDtos(List<Post> posts) {
         return posts.stream()
-                .map(post -> mapToPostDtos(post)) //mapowanie listy postwo na liste postwoDto
+                .map(post -> mapToPostDtos(post))
                 .collect(Collectors.toList());
     }
 
-    public static PostDto mapToPostDtos(Post post) { //mapownie encji postow na postDto
+    public static PostDto mapToPostDtos(Post post) {
         return PostDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
