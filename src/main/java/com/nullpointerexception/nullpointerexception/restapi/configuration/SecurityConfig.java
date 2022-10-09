@@ -17,8 +17,8 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 import javax.sql.DataSource;
 
-@Configuration //jest to wymagana adnotacja
-public class SecurityConfig extends WebSecurityConfigurerAdapter { //musi roszerzac ta klase adapter
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource datasource;
     private final ObjectMapper objectMapper;

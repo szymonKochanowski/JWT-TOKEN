@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class LoginController {
 
-    @PostMapping("/login") //to jest metoda ktora umozliwia nam jedynie strzelanie do metody, nie musi ona nic zwracac poniewaz, za uwierzytelnienie odpowiada filtr
+    @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LogiCredentials logiCredentials) {
         log.info("Start logging to app user: " + logiCredentials.getUsername());
         return new ResponseEntity(HttpStatus.OK);
